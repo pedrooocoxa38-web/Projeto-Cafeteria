@@ -23,6 +23,14 @@ dist-ssr
 *.sqlite3
 backend/cafeteria.db
 
+# Documentação/READMEs (opcional)
+README.md
+PRODUTOS_ADICIONADOS.md
+backend/README.md
+backend/COMANDOS_RAPIDOS.md
+backend/FRONTEND_EXAMPLES.md
+backend/INSTRUCOES_FINAIS.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
