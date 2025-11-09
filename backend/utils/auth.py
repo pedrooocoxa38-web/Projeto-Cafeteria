@@ -1,6 +1,7 @@
 """
 Utilidades para autenticação JWT e criptografia de senha
 """
+import os
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
@@ -14,7 +15,7 @@ from models import User
 from schemas import TokenData
 
 # Configurações de segurança
-SECRET_KEY = "sua-chave-secreta-super-segura-mude-em-producao-2024"  # MUDE EM PRODUÇÃO!
+SECRET_KEY = os.getenv("SECRET_KEY", "sua-chave-secreta-super-segura-mude-em-producao-2024")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 horas
 

@@ -5,14 +5,29 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Caminho do banco de dados SQLite
-SQLALCHEMY_DATABASE_URL = "sqlite:///./cafeteria.db"
+"""
+Configuração do banco de dados SQLite com SQLAlchemy
+"""
+import os
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+# Configuração do banco - Railway usa PostgreSQL, local usa SQLite
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL:
+    # Railway PostgreSQL
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+    SQLALCHEMY_DATABASE_URL = DATABASE_URL
+    connect_args = {}
+else:
+    # Local SQLite
+    SQLALCHEMY_DATABASE_URL = "sqlite:///./cafeteria.db"
+    connect_args = {"check_same_thread": False}
 
 # Criar engine do SQLAlchemy
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, 
-    connect_args={"check_same_thread": False}  # Necessário para SQLite
-)
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args=connect_args)
 
 # Criar SessionLocal para interagir com o banco
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
