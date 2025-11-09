@@ -3,7 +3,10 @@
  * Handles all HTTP communication with FastAPI backend
  */
 
-const API_URL = 'http://localhost:8000/api';
+// Configuração da URL da API - produção vs desenvolvimento
+const API_URL = import.meta.env.PROD 
+  ? 'https://geekhaven-backend.onrender.com/api' 
+  : 'http://localhost:8000/api';
 
 // Types
 export interface User {
