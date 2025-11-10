@@ -5,7 +5,7 @@
 
 // Configuração da URL da API - produção vs desenvolvimento
 const API_URL = import.meta.env.PROD 
-  ? import.meta.env.VITE_API_URL || 'https://geekhaven-api.seudominio.com/api'
+  ? import.meta.env.VITE_API_URL || '/api'
   : 'http://localhost:8000/api';
 
 // Types

@@ -1,22 +1,15 @@
 """
-Configuração do banco de dados SQLite com SQLAlchemy
-"""
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-"""
-Configuração do banco de dados SQLite com SQLAlchemy
+Configuração do banco de dados com SQLAlchemy
 """
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Configuração do banco - Railway usa PostgreSQL, local usa SQLite
+# Configuração do banco - Easypanel usa PostgreSQL, local usa SQLite
 DATABASE_URL = os.getenv("DATABASE_URL")
 if DATABASE_URL:
-    # Railway PostgreSQL
+    # Easypanel PostgreSQL
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
     SQLALCHEMY_DATABASE_URL = DATABASE_URL
