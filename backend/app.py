@@ -34,8 +34,10 @@ app.add_middleware(
         "http://127.0.0.1:3000",
         "http://127.0.0.1:8080",
         "http://127.0.0.1:8081",
-        "https://geekhaven.seudominio.com",  # Frontend produção
-        "https://*.seudominio.com"  # Qualquer subdominio seu
+        "https://geekhaven-brew-1-cafeteria-front.a9negi.easypanel.host",  # Frontend produção
+        "https://geekhaven.seudominio.com",  # Frontend produção backup
+        "https://*.seudominio.com",  # Qualquer subdominio seu
+        "*"  # Permite qualquer origem (apenas para testes)
     ],
     allow_credentials=True,
     allow_methods=["*"],  # Permite todos os métodos (GET, POST, PUT, DELETE, etc.)
