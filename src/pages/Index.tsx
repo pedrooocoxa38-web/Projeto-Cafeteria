@@ -22,11 +22,14 @@ const Index = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
+        console.log('🔍 Tentando carregar produtos...');
+        console.log('🌐 API URL:', import.meta.env.VITE_API_URL);
         const allProducts = await productsAPI.getAll();
+        console.log('✅ Produtos carregados:', allProducts);
         // Show only first 4 products as featured
         setProducts(allProducts.slice(0, 4));
       } catch (error) {
-        console.error('Error loading products:', error);
+        console.error('❌ Error loading products:', error);
         toast({
           title: "Erro",
           description: "Não foi possível carregar os produtos",

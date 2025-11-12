@@ -4,9 +4,10 @@
  */
 
 // Configuração da URL da API - produção vs desenvolvimento
-const API_URL = import.meta.env.PROD 
-  ? import.meta.env.VITE_API_URL || '/api'
-  : 'http://localhost:8000/api';
+const API_URL = import.meta.env.VITE_API_URL || 
+  (import.meta.env.PROD 
+    ? 'https://geekhaven-brew-1-cafeteria-back-1.a9negi.easypanel.host' 
+    : 'http://localhost:8000') + '/api';
 
 // Types
 export interface User {
@@ -94,6 +95,8 @@ const apiRequest = async <T>(
 ): Promise<T> => {
   const url = `${API_URL}${endpoint}`;
   
+  console.log('🚀 Fazendo requisição para:', url);
+  
   const config: RequestInit = {
     headers: getAuthHeaders(),
     ...options,
@@ -101,9 +104,11 @@ const apiRequest = async <T>(
 
   try {
     const response = await fetch(url, config);
+    console.log('📡 Resposta recebida:', response.status, response.statusText);
     
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
+      console.error('❌ Erro na API:', response.status, errorData);
       throw new APIError(
         response.status, 
         errorData?.detail || `HTTP ${response.status}: ${response.statusText}`
@@ -163,7 +168,10 @@ export const authAPI = {
 // Products API
 export const productsAPI = {
   async getAll(): Promise<Product[]> {
-    return apiRequest<Product[]>('/products');
+    console.log('🔗 Chamando API de produtos:', `${API_URL}/products`);
+    const result = await apiRequest<Product[]>('/products');
+    console.log('📦 Produtos retornados da API:', result);
+    return result;
   },
 
   async getById(id: number): Promise<Product> {
