@@ -16,6 +16,10 @@ dist-ssr
 .env
 .env.local
 .env.production
+backend/.env
+
+# Docker
+docker-compose.override.yml
 
 # Banco de dados
 *.db

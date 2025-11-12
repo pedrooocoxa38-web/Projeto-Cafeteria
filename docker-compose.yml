@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:80"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/cafeteria
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-change-in-production}
+      - FRONTEND_URL=http://localhost:3000
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=1440
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=cafeteria
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

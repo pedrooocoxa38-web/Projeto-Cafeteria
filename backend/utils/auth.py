@@ -37,8 +37,17 @@ def _truncate_password(password: str) -> str:
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Verifica se a senha corresponde ao hash"""
+    # Verifica se é hash SHA256 simples (64 caracteres hex)
+    if len(hashed_password) == 64 and all(c in '0123456789abcdef' for c in hashed_password):
+        import hashlib
+        return hashlib.sha256(plain_password.encode()).hexdigest() == hashed_password
+    
+    # Caso contrário, usa bcrypt
     truncated_password = _truncate_password(plain_password)
-    return pwd_context.verify(truncated_password, hashed_password)
+    try:
+        return pwd_context.verify(truncated_password, hashed_password)
+    except Exception:
+        return False
 
 
 def get_password_hash(password: str) -> str:

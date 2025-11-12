@@ -97,6 +97,20 @@ app.include_router(cart.router)
 app.include_router(reservations.router)
 app.include_router(orders.router)
 
+# Adiciona rota alternativa para produtos (sem /api prefix)
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from database import get_db
+from models import Product
+
+@app.get("/products")
+def get_all_products_alt(db: Session = Depends(get_db)):
+    """
+    Lista todos os produtos (público) - rota alternativa sem /api
+    """
+    products = db.query(Product).all()
+    return products
+
 
 # Handler de erros global
 @app.exception_handler(Exception)
